@@ -3,14 +3,6 @@ Backup activities from Garmin Connect to local hard drive.
 
 This is an alpha.  Lots of error handling / exceptions not handled as of right now. 
 
-You can run the Python code directly from the zip file by navigating to it in commandline and entering:
-
-python “zip_filename”
-
-Example:
-
-	python “GBC 2017 07 30.zip”
-
 Enter email, username, and place you want to backup the data.  If you don’t put a backup location, it will create a folder called “garmin_data” at current directory.
 
 Click Connect.
