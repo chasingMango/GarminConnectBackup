@@ -167,8 +167,7 @@ class GarminConnectService():
                 #activies appear from most recent to oldest, so once we see an activity
                 #that appears in our saved list, the rest will be in there too, so
                 #break from the loop
-                if saved_activities is not None:
-                    if saved_activities.index(activity)>=0:
+                if saved_activities is not None and activity in saved_activities:
                         print("Activity ID ",activity["activity"]["activityId"]," found in saved list.  Breaking.")
                         exit_loop=True
                         break
@@ -203,8 +202,9 @@ class GarminConnectService():
         activity_list_filename = path + "\\" + self.ACTIVITY_LIST_FILENAME
         if os.path.isfile(activity_list_filename):
             with open(activity_list_filename) as json_data:
-                activity_list = json.load(json_data)
-            self._set_activity_list(activity_list)
+                self._set_activity_list(json.load(json_data))
+        else:
+            self._set_activity_list(None)
         #convert to list
         #activity_list = json.loads(activity_list)
         
@@ -269,6 +269,7 @@ class GarminConnectService():
                 os.makedirs(download_path)
 
             count=0
+            new_count=0
             for id in ids:
                 self._display_status("Downloading activites: " + str(math.floor((count/len(ids))*100)) + "%")
                 count+=1
@@ -276,10 +277,12 @@ class GarminConnectService():
 
                 if not os.path.isfile(filename) and not os.path.isfile(filename[0:-3]+"zip") and not os.path.isfile(filename[0:-3]+"fit") and not os.path.isfile(filename[0:-3]+"tcx"):
                     print("Downloading activity",count,"out of",len(ids),count-1, ".  Activity_ID=",id)
-                    self.download_activity_original(id,download_path)
+                    #Download the activity and also increment the count if it was successful
+                    if self.download_activity_original(id,download_path):
+                        new_count+=1
                 else:
                     print("Already downloaded activity",count,"out of",len(ids))
-            self._display_status("Download complete.")
+            self._display_status("Download " + str(new_count) + " new activities.")
                     
         background_thread = Thread(target=separate_thread, args=(download_path,))
         background_thread.start()

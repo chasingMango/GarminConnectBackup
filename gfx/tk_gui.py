@@ -1,5 +1,4 @@
 from tkinter import *
-from gfx.smart_fields import *
 #from garminconnect_simple import GarminConnectService
 
 class Graphics:
