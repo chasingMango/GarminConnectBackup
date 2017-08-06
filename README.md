@@ -1,4 +1,4 @@
-# GarminConnectBackup
+# Garmin Connect Backup
 This project will allow you to log into Garmin Connect and download your raw ".FIT" data to local hardrive.
 
 This is an alpha, so please help out by reporting errors and feature suggestions.
