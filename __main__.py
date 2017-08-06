@@ -2,7 +2,6 @@ from garminconnect_simple import GarminConnectService
 from xmltools import XMLTools
 from gfx.tk_gui import Graphics
 import sys
-import datetime
 #import os
 #import xml.etree.ElementTree as ET
 
