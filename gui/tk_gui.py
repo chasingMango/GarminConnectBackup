@@ -221,7 +221,10 @@ class tk_GUI:
         button_group_advanced = LabelFrame(root,text="Advanced Options")
         button_group_advanced.pack(padx=10,pady=10)
         chk_force_activity_list_refresh = Checkbutton(button_group_advanced, text="Force activity list refresh", var=self.option_force_activity_list_refresh)
-        self.option_force_activity_list_refresh.set(int(self.xmltools.get_xml_text(self.xmltools.FORCE_ACTIVITY_LIST_REFRESH_KEY)))
+        if self.xmltools.get_xml_text(self.xmltools.FORCE_ACTIVITY_LIST_REFRESH_KEY) is not "":
+            self.option_force_activity_list_refresh.set(int(self.xmltools.get_xml_text(self.xmltools.FORCE_ACTIVITY_LIST_REFRESH_KEY)))
+        else:
+            self.option_force_activity_list_refresh.set(0)
         self.checkboxes.append(['chk_force_activity_list_refresh',chk_force_activity_list_refresh])
         chk_force_activity_list_refresh.pack()
         

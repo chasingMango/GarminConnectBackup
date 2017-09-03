@@ -15,7 +15,7 @@ class XMLTools():
             self._filename = filename
             self.load_settings(filename)
     
-    def load_settings(self,filename,createIfNew=True):
+    def load_settings(self,filename,createIfNew=False):
         if os.path.isfile(filename):
             tree = ET.parse(filename)
         else:

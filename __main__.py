@@ -19,10 +19,14 @@ backup_path = xmltools.get_xml_text(xmltools.BACKUPPATH_KEY)
 gui = tk_GUI(xmltools)
 
 #initialize Garmin connection
-garmin = Garmin(email=email,password=password,backup_path=backup_path)
+if email is not "" and password is not "":
+    garmin = Garmin(email=email,password=password,backup_path=backup_path)
+else:
+    garmin = Garmin()
 #garmin = Garmin()
 garmin.gui = gui
-garmin.connect(email,password,wait_for_completion=False)
+if email is not "" and password is not "":
+    garmin.connect(email,password,wait_for_completion=False)
 
 gui.run_mainloop()
 
