@@ -5,6 +5,7 @@ class XMLTools():
     EMAIL_KEY = "email"
     PASSWORD_KEY = "password"
     BACKUPPATH_KEY = "backup_path"
+    FORCE_ACTIVITY_LIST_REFRESH_KEY = "force_activity_list_refresh"
     
     tree = None
     filename = None
@@ -12,24 +13,45 @@ class XMLTools():
     def __init__(self,filename=None):
         if filename is not None:
             self._filename = filename
-            self._load_settings(filename)
+            self.load_settings(filename)
     
-    def _load_settings(self,filename,createIfNew=True):
+    def load_settings(self,filename,createIfNew=True):
         if os.path.isfile(filename):
             tree = ET.parse(filename)
         else:
-            root = ET.Element("GCB_Settings")
-            ET.SubElement(root, self.EMAIL_KEY).text=""
-            ET.SubElement(root, self.PASSWORD_KEY).text=""
-            ET.SubElement(root, self.BACKUPPATH_KEY).text=""
-            tree = ET.ElementTree(root)
+            tree = self._create_tree([
+                                    [self.EMAIL_KEY,""],
+                                    [self.PASSWORD_KEY,""],
+                                    [self.BACKUPPATH_KEY,""],
+                                    [self.FORCE_ACTIVITY_LIST_REFRESH_KEY,""]])
             if createIfNew:
                 tree.write(filename)
         self.filename = filename
         self.tree = tree
         return tree
+        
+    def save_settings(self, email,password,backup_path,force_activity_list_refresh,filename=None):
+        if filename is None:
+            filename = self.filename
+        
+        tree = self._create_tree([
+                                    [self.EMAIL_KEY,email],
+                                    [self.PASSWORD_KEY,password],
+                                    [self.BACKUPPATH_KEY,backup_path],
+                                    [self.FORCE_ACTIVITY_LIST_REFRESH_KEY,force_activity_list_refresh]])
+                                    
+        tree.write(filename)
+        self.tree=tree
+        return tree
     
-    def _get_xml_text(self,key):
+    def _create_tree(self,settings):
+        root = ET.Element("GCB_Settings")
+        for setting in settings:
+            ET.SubElement(root,setting[0]).text=setting[1]
+        tree = ET.ElementTree(root)
+        return tree
+    
+    def get_xml_text(self,key):
         root = self.tree.getroot()
         if root.find(key).text is None:
             return ""
@@ -39,15 +61,9 @@ class XMLTools():
         #password = root.find("password").text
         #filepath = root.find("filepath").text'''
         
-    def _write_xml_text(self,key,newtext):
+    def write_xml_text(self,key,newtext):
         self.tree.getroot().find(key).text = newtext
         
-    def _save_settings(self,filename=None):
-        if filename is None:
-            filename = self.filename
-        else:
-            self.filename = filename
-        print("FILENAME:")
-        print(filename)
-        self.tree.write(self.filename)
+    def get_filename(self):
+        return self.filename
     
