@@ -1,22 +1,22 @@
 from setuptools import setup, find_packages
 
 setup (
-       name='GarminConnectBackup1',
+       name='GarminConnectBackup',
        version='0.1',
        packages=find_packages(),
 
        # Declare your packages' dependencies here, for eg:
-       install_requires=['foo>=3'],
+       install_requires=[''],
 
        # Fill in these to make your Egg ready for upload to
        # PyPI
-       author='Jon',
-       author_email='',
+       author='Jonathan McGrath',
+       author_email='mcgrath.jon@gmail.com',
 
        #summary = 'Just another Python package for the cheese shop',
        url='',
        license='',
-       long_description='Long description of the package',
+       long_description='This project will allow you to log into Garmin Connect and download raw fitness files to your local hard drive.',
 
        # could also include long_description, download_url, classifiers, etc.
 
